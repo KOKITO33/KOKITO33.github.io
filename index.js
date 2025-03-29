@@ -300,3 +300,11 @@ function validateAuthForm(form) {
     return isValid;
 }
 
+// Ajusta márgenes al cargar y redimensionar
+function adjustMargins() {
+    if (window.innerWidth <= 768) {
+      document.querySelector('.Homepage_searchControls').style.margin = "0 5%";
+    }
+  }
+  window.addEventListener('resize', adjustMargins);
+  adjustMargins();

@@ -717,35 +717,30 @@ input {
     display: block;
 }
 
-/* ===== RESPONSIVE ADJUSTMENTS ===== */
+/* ===== RESPONSIVE (Móvil) ===== */
 @media (max-width: 768px) {
-    .Homepage_searchControls {
-      margin-left: 5%;
-      margin-right: 5%;
+    /* 1. Ajusta márgenes */
+    .Homepage_searchControls, 
+    .HomepageInformation {
+      margin-left: 5% !important;
+      margin-right: 5% !important;
     }
-  
+    
+    /* 2. Apila inputs en columna */
     .flight {
-      flex-direction: column;
+      flex-direction: column !important;
     }
-  
+    
+    /* 3. Oculta tabs y muestra menú hamburguesa */
     .Tabs_container {
-      flex-wrap: wrap;
+      display: none !important;
     }
-  
-    /* Menú hamburguesa */
     .menu-button {
-      display: block;
+      display: block !important;
     }
-  
-    .menu-dropdown {
-      position: absolute;
-      right: 0;
-      background: white;
-    }
-  
-    /* Login modal ajustable */
+    
+    /* 4. Ajusta modal de login */
     .main {
-      width: 90%;
-      max-width: 350px;
+      width: 90% !important;
     }
-  }
+}
