@@ -1,5 +1,3 @@
-/* Base Styles */
-
 /*
 *****************************************************************************************************************
 CREATOR: Javier Alegría Sobrados / KOKITO33
@@ -718,3 +716,36 @@ input {
 .menu-dropdown.show {
     display: block;
 }
+
+/* ===== RESPONSIVE ADJUSTMENTS ===== */
+@media (max-width: 768px) {
+    .Homepage_searchControls {
+      margin-left: 5%;
+      margin-right: 5%;
+    }
+  
+    .flight {
+      flex-direction: column;
+    }
+  
+    .Tabs_container {
+      flex-wrap: wrap;
+    }
+  
+    /* Menú hamburguesa */
+    .menu-button {
+      display: block;
+    }
+  
+    .menu-dropdown {
+      position: absolute;
+      right: 0;
+      background: white;
+    }
+  
+    /* Login modal ajustable */
+    .main {
+      width: 90%;
+      max-width: 350px;
+    }
+  }
