@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FindMyFlight</title>
+    <link rel="stylesheet" href="index.css">
+</head>
+
+<!--
+*****************************************************************************************************************
+CREATOR: Javier Alegría Sobrados / KOKITO33
+last modified on: 29/March/2025
+
+PROJECT: WEB EXAMPLE OF A SEARCH TOOL FOR FLIGHTS, HOTELS AND CAR RENTALS
+
+FUNCTION:
+Find My Flight HTML file
+*****************************************************************************************************************
+-->
+
+
+
+<body>
+    <!-- Contact Form (hidden by default) -->
+    <div id="contactModal" class="modal">
+        <div class="contact-form-container">
+            <span class="close-modal">&times;</span>
+            <h2>Contact Us</h2>
+            <form id="contactForm">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="name" placeholder="Your Name" required>
+                    <span class="error-message" id="nameError"></span>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" placeholder="Your Email" required>
+                    <span class="error-message" id="emailError"></span>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone</label>
+                    <input type="tel" id="phone" name="phone" placeholder="Your Phone Number" required>
+                    <span class="error-message" id="phoneError"></span>
+                </div>
+                <div class="form-group">
+                    <label for="message">Message</label>
+                    <textarea id="message" name="message" placeholder="Your Message" rows="5" required></textarea>
+                    <span class="error-message" id="messageError"></span>
+                </div>
+                <button type="submit" class="submit-button">Send Message</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Register/Login Modal (hidden by default) -->
+    <div id="registerModal" class="modal">
+        <div class="main">
+            <span class="close-modal" style="position: absolute; top: 15px; right: 20px;">&times;</span>
+            <input type="checkbox" id="chk" aria-hidden="true">
+            <div class="signup">
+                <form>
+                    <label for="chk" aria-hidden="true">Sign up</label>
+                    <input type="text" name="txt" placeholder="User name" required="">
+                    <input type="email" name="email" placeholder="Email" required="">
+                    <input type="number" name="Smarter" placeholder="Phone number" required="">
+                    <input type="password" name="pswd" placeholder="Password" required="">
+                    <button type="button" class="redirectButton">Sign up</button>
+                </form>
+            </div>
+            <div class="login">
+                <form>
+                    <label for="chk" aria-hidden="true">Login</label>
+                    <input type="email" name="email" placeholder="Email" required="">
+                    <input type="password" name="pswd" placeholder="Password" required="">
+                    <button type="button" class="redirectButton">Login</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div id="pagewrap">
+        <div class="Homepage">
+            <main>
+                <div class="Homepage_searchControls">
+                    <div class="Homepage_innerSearchControls">
+                        <div class="Homepage_headerWrapper">
+                            <header id="header-logo-link" class="GlobalHeader" aria-label="homepage header">
+                                <a class="FMFlink" href="#" id="homeLink">
+                                    <span class="FMF">FMF</span>
+                                </a>
+                                
+                                <div class="menu-container">
+                                    <button id="menuBtn" class="menu-button">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="white">
+                                            <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                                        </svg>
+                                    </button>
+                                    <div id="menuDropdown" class="menu-dropdown">
+                                        <button class="menu-option" data-tab="flights">Vuelos</button>
+                                        <button class="menu-option" data-tab="hotels">Hoteles</button>
+                                        <button class="menu-option" data-tab="cars">Coches</button>
+                                        <div class="menu-divider"></div>
+                                        <button id="helpOption" class="menu-option">Help</button>
+                                    </div>
+                                </div>
+                                
+                                <div class="GlobalHeader_buttonWrapper" aria-label="header buttons wrapper">
+                                    <!-- Botón original de login/register (visible cuando no hay sesión) -->
+                                    <button id="loginRegisterBtn" class="GlobalHeader_login IconButton" type="button" aria-label="log in/register button">
+                                        <svg xmlns="http://www.w3.org/2000/svg" style="fill: white;" class="LoginButton_icon" aria-label="Logged out icon" viewBox="0 0 24 24" aria-hidden="true" width="1.5rem" height="1.5rem">
+                                            <path d="M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2s10 4.477 10 10M6.21 15.975A7.04 7.04 0 0 0 12 19a7.04 7.04 0 0 0 5.79-3.024c.427-.613.174-1.435-.5-1.762A12.06 12.06 0 0 0 12 13c-1.898 0-3.693.436-5.29 1.213-.673.327-.927 1.15-.5 1.762M10.994 5C10.17 5 9.5 5.618 9.5 6.381v2.31C9.5 9.965 10.62 11 12 11s2.5-1.035 2.5-2.31V6.382C14.5 5.618 13.83 5 13.005 5h-2.01z"></path>
+                                        </svg>
+                                        <span class="LoginButton_text IconText" aria-label="login text">Log In/Register</span>  
+                                    </button>
+                                    
+                                    <!-- Dropdown del usuario (visible cuando hay sesión) -->
+                                    <div class="user-dropdown-container" style="display: none;">
+                                        <button id="userMenuBtn" class="user-menu-button IconButton">
+                                            <svg xmlns="http://www.w3.org/2000/svg" style="fill: white;" viewBox="0 0 24 24" width="1.5rem" height="1.5rem">
+                                                <path d="M12 2a5 5 0 1 0 5 5 5 5 0 0 0-5-5zm0 8a3 3 0 1 1 3-3 3 3 0 0 1-3 3zm9 11v-1a7 7 0 0 0-7-7h-4a7 7 0 0 0-7 7v1h2v-1a5 5 0 0 1 5-5h4a5 5 0 0 1 5 5v1z"/>
+                                            </svg>
+                                            <span id="usernameDisplay" class="IconText"></span>
+                                        </button>
+                                        <div id="userDropdown" class="user-dropdown">
+                                            <button id="logoutBtn" class="menu-option">Log Out</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </header>
+                        </div>
+                        <div class="Homepage_headerTabsWrapper" aria-label="Homepage header tabs wrapper">
+                            <div class="Tabs_container">
+                                <div class="Tab_wrapper">
+                                    <button id="flightsTab" class="IconButton active-tab">
+                                        <span class="Tab_logo Tab_logoFlights">
+                                            <svg xmlns="http://www.w3.org/2000/svg" style="fill: white;" viewBox="0 0 24 24" aria-hidden="true" width="1rem" height="1rem"><path d="m1.802 6.623 6.279 3.676a1.11 1.11 0 0 0 1.317-.205L12.75 6.75c.32-.326-.336-.632-.782-.716l-8.274-1.69a1.11 1.11 0 0 0-1 .317L1.664 5.71a.58.58 0 0 0 .138.913"></path><path d="M6.125 15.085a1.11 1.11 0 0 0 .973-.321l11.77-11.995a4.3 4.3 0 0 1 2.13-1.197l.201-.043a1.05 1.05 0 0 1 1.273 1.296l-.043.206a4.4 4.4 0 0 1-1.175 2.17L17.45 9.078a1.16 1.16 0 0 0-.31 1.016l1.742 9.732a1.16 1.16 0 0 1-.3 1.069l-1.008 1.026a.557.557 0 0 1-.896-.14l-3.664-7.13a.557.557 0 0 0-.896-.14l-2.59 2.64a1.16 1.16 0 0 0-.297 1.085l.662 2.746a1.475 1.475 0 0 1-.86 1.399h-.001a1.1 1.1 0 0 1-1.529-.547L6.29 18.822a1.73 1.73 0 0 0-.791-.807l-3.212-.951a1.163 1.163 0 0 1-.542-1.537 1.43 1.43 0 0 1 1.375-.93z"></path></svg>
+                                        </span>
+                                        <span class="Tab_text Tab_textFlights IconText">Flights</span>
+                                    </button>
+                                </div>
+                                <div class="Tab_wrapper">
+                                    <button id="hotelsTab" class="IconButton">
+                                        <span class="Tab_logo Tab_logoHotels">
+                                            <svg xmlns="http://www.w3.org/2000/svg" style="fill: white;" viewBox="0 0 24 24" aria-hidden="true" width="1rem" height="1rem"><path d="M3.684 5.067A1.23 1.23 0 0 0 3 6.227V9.43a1.1 1.1 0 0 0 1.125 1.07H5.25A.75.75 0 0 0 6 9.75v-1.5a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 0 .75.75h1.5a.75.75 0 0 0 .75-.75v-1.5a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 0 .75.75h1.123a1.1 1.1 0 0 0 1.125-1.073l-.001-1.07H21v-2.13a1.23 1.23 0 0 0-.684-1.16l-1.991-.812a16.57 16.57 0 0 0-12.65 0zM4.5 12a3 3 0 0 0-3 3v5.25a.75.75 0 0 0 .75.75h.286a.75.75 0 0 0 .671-.415L4.5 18h15l1.293 2.585a.75.75 0 0 0 .67.415h.287a.75.75 0 0 0 .75-.75V15a3 3 0 0 0-3-3z"></path></svg>
+                                        </span>
+                                        <span class="Tab_text Tab_textHotels IconText">Hotels</span>
+                                    </button>
+                                </div>
+                                <div class="Tab_wrapper">
+                                    <button id="carsTab" class="IconButton">
+                                        <span class="Tab_logo Tab_logoCars">
+                                            <svg xmlns="http://www.w3.org/2000/svg" style="fill: white;" viewBox="0 0 24 24" aria-hidden="true" width="1rem" height="1rem" class="BpkIcon_bpk-icon--rtl-support__MzcwM"><path d="M24 13.47v1.08c0 1.08 0 2.7-1 2.7h-1.25a.925.925 0 0 1-.843-.742 3.001 3.001 0 0 0-5.814 0 .925.925 0 0 1-.843.742h-4.5a.925.925 0 0 1-.843-.742 3.001 3.001 0 0 0-5.814 0 .925.925 0 0 1-.843.742H1.5v-.006a1 1 0 0 1-.063.005h-.03a1 1 0 0 1-.09-.003C.33 17.25.072 15.49.004 14.564a2 2 0 0 1 .225-1.044l1.658-3.058a1.29 1.29 0 0 1 1.112-.713h11c1 0 .88-1.034.194-1.57a6.6 6.6 0 0 0-1.596-.999 8.05 8.05 0 0 0-3.061-.545 13.7 13.7 0 0 0-3.226.417A44 44 0 0 0 1.909 8.44a.54.54 0 0 1-.69-.408l-.003-.012a.7.7 0 0 1 .334-.845A30 30 0 0 1 6.07 5.66a14 14 0 0 1 3.322-.409h.1a9.3 9.3 0 0 1 3.498.587 17 17 0 0 1 4.05 3.136 1.08 1.08 0 0 0 .668.31 11.95 11.95 0 0 1 4.79 1.486 3.01 3.01 0 0 1 1.5 2.7z"></path><path d="M7.5 17.25a1.5 1.5 0 1 1-1.5-1.5 1.5 1.5 0 0 1 1.5 1.5m12 0a1.5 1.5 0 1 1-1.5-1.5 1.5 1.5 0 0 1 1.5 1.5"></path></svg>
+                                        </span>
+                                        <span class="Tab_text Tab_textCars IconText">Car rental</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Dynamic Content Sections -->
+                        <div id="flightsContent" class="content-section active">
+                            <h2 class="Homepage_header_title">Find My Flight!, The cheapest flights on a single page</h2>
+                            <div>
+                                <div class="SearchControls_container">
+                                    <div class="container">
+                                        <div id="flights">
+                                            <div class="flight">
+                                                <input type="text" placeholder="From">
+                                                <input type="text" placeholder="To">
+                                                <input type="date">
+                                            </div>
+                                        </div>
+                                        <button class="IconButton2" id="addFlightBtn">
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" width="1rem" height="1rem">
+                                                <path d="M12 2a2 2 0 0 1 2 2v7h7a2 2 0 1 1 0 4h-7v7a2 2 0 1 1-4 0v-7H3a2 2 0 1 1 0-4h7V4a2 2 0 0 1 2-2z" fill="currentColor"/>
+                                            </svg>
+                                            <span class="IconText">Add flight</span>
+                                        </button>
+                                    </div>
+                                    <div class="SearchControls_multicity_footer">
+                                        <div>
+                                            <div class="SearchControls_ButtonContainer_TravelerClass">
+                                                <button class="SearchControls_ButtonTravelerClass">
+                                                    <span class="SearchControls_ButtonTravelerClass_label">Travelers and class</span>
+                                                    <span class="SearchControls_ButtonTravelerClass_Value">1 traveler, economy</span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="SearchControls_popOver">
+                                            <div class=""></div>
+                                        </div>
+                                        <button id="searchFlightsBtn" class="SearchControls_FindButton" type="button">Buscar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="hotelsContent" class="content-section">
+                            <h2 class="Homepage_header_title">Here you can search for the cheapest and better Hotels</h2>
+                            <h3>Enter the check-in date and check-out date of the hotel, as well as the place of the hotel</h3>
+                            <div>
+                                <div class="SearchControls_container">
+                                    <div class="container">
+                                        <div id="hotelsSearch">
+                                            <div class="flight">
+                                                <input type="date" placeholder="From">
+                                                <input type="date" placeholder="To">
+                                            </div>
+                                            <div class="flight">
+                                                <input type="text" placeholder="Introduce the place of the Hotel">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="SearchControls_multicity_footer">
+                                        <div>
+                                            <div class="SearchControls_ButtonContainer_TravelerClass">
+                                                <button class="SearchControls_ButtonTravelerClass">
+                                                    <span class="SearchControls_ButtonTravelerClass_label">Stars of the hotel</span>
+                                                    <span class="SearchControls_ButtonTravelerClass_Value">5 stars</span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="SearchControls_popOver">
+                                            <div class=""></div>
+                                        </div>
+                                        <button id="searchHotelsBtn" class="SearchControls_FindButton" type="button">Buscar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="carsContent" class="content-section">
+                            <h2 class="Homepage_header_title">If you need a rental car, this is your website</h2>
+                            <h3>Please enter the date you want to pick up the car and when you want to stop using it, as well as the street where you want to pick up the car (if you don't enter any street, default location will be the airport).</h3>
+                            <div>
+                                <div class="SearchControls_container">
+                                    <div class="container">
+                                        <div id="carsSearch">
+                                            <div class="flight">
+                                                <input type="date" placeholder="From">
+                                                <input type="date" placeholder="To">
+                                            </div>
+                                            <div class="flight">
+                                                <input type="text" placeholder="Street of pick-up">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="SearchControls_multicity_footer">
+                                        <div>
+                                            <div class="SearchControls_ButtonContainer_TravelerClass">
+                                                <button class="SearchControls_ButtonTravelerClass">
+                                                    <span class="SearchControls_ButtonTravelerClass_label">Car brand and model</span>
+                                                    <span class="SearchControls_ButtonTravelerClass_Value">Merecedes MayBach S</span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="SearchControls_popOver">
+                                            <div class=""></div>
+                                        </div>
+                                        <button id="searchCarsBtn" class="SearchControls_FindButton" type="button">Buscar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="destinationsContent" class="content-section">
+                            <h3 class="Homepage_header_title">
+                                <div style="margin-bottom: 2rem;">
+                                    Oops, it looks like we couldn't find any results. Please try again later or <a id="contactSupportLink" style="color: rgb(82, 163, 255); cursor: pointer;">contact support</a>
+                                </div>  
+                            </h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="HomepageInformation_Wrapper">            
+                    <div class="HomepageInformation">
+                        <section class="features">
+                            <div class="feature-card fff2">
+                                <h3 id="GC">Global Coverage</h3>
+                                <p>Access to 5,000+ destinations worldwide</p>
+                            </div>
+                            <div class="feature-card fff1">
+                                <h3 id="GC">Best Prices</h3>
+                                <p>Price match guarantee on all bookings</p>
+                            </div>
+                        </section>
+                    </div>
+
+                    <div class="faq-section">    
+                        <h2 style="color: #005599;">Frequent questions</h2>
+
+                        <div class="faq-item">
+                            <div class="faq-question">How does find my flight works?</div>
+                            <div class="faq-answer">
+                                We are a search engine for flights, rental cars and hotels. We search all major airlines and online travel providers so you can easily compare airfares and other travel expenses in one place.
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <div class="faq-question">Can I also book hotels via FMF?</div>
+                            <div class="faq-answer">
+                                Yes, you can use our hotel booking function to find the best deal.
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <div class="faq-question">What happens after I book my flight?</div>
+                            <div class="faq-answer">
+                                Your booking confirmation and any other information you need will come from the airline or provider you booked with. If you have any further questions about your booking or wish to change or cancel your flight, you must contact them.
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <div class="faq-question">What do I do if I want to cancel the reservation?</div>
+                            <div class="faq-answer">
+                                If you want to cancel the reservation, you can contact the service provider to cancel or obtain more information.
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <div class="faq-question">Can you cancel my reservation for me?</div>
+                            <div class="faq-answer">
+                                Unfortunately we cannot cancel the reservations we make, so the user will have to contact the official supplier, however, we are working to implement this feature on our website.
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <div class="faq-question">What about rental cars?</div>
+                            <div class="faq-answer">                                
+                                You can also use Skyscanner to search for cheap rental cars in seconds and compare them. Then pick up the rental car from the airport as soon as you land.
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <div class="faq-question">Can I leave the rental car wherever I want?</div>
+                            <div class="faq-answer">
+                                Yes, the user can leave the rental car anywhere parked, however, if the user leaves the car inside one of the official centers of the company, he will be refunded with 10% of the initial payment.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+    <script src="index.js"></script>
+</body>
+</html>
