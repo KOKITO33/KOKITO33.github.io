@@ -260,9 +260,9 @@ function validateContactForm() {
         isValid = false;
     }
 
-    const phoneRegex = /^[0-9]{9}$/;
+    const phoneRegex = /^[0-9]{8,15}$/;
     if (!phoneRegex.test(phone.value)) {
-        document.getElementById('phoneError').textContent = 'Phone must have 9 digits';
+        document.getElementById('phoneError').textContent = 'Phone must be between 8 and 15 digits';
         document.getElementById('phoneError').style.display = 'block';
         isValid = false;
     }
